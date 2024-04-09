@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import styles from "./aiSimulator.module.scss"; // Import the CSS module
@@ -16,18 +15,95 @@ export default function AiSimulatorPage() {
     setIsLoading(true);
 
     try {
-      // Simulating a fetch request
-      setTimeout(() => {
-        console.log("Report Type:", reportType);
-        console.log("Title:", title);
-        console.log("Content:", content);
-        setIsLoading(false);
-      }, 1500);
-    } catch (error) {
-      console.error(error);
-      // Handle error if necessary
+      const res = await request.put(
+        api.reminder,
+        {
+          centerId: center.id,
+          timezone: center.timezone,
+          operation: "create",
+          opInfo: {
+            classroomId: await AsyncStorage.getItem("classroomId"),
+            logData: {
+              teacherId: teacher.id,
+              teacherName: `${teacher.firstName} ${teacher.lastName}`,
+              content: notes,
+            },
+          },
+        },
+        globalState.jwtToken
+      );
+      switch (res.status) {
+        case 200:
+          onClose();
+          initData();
+          break;
+
+        case 403:
+          setUnauthorized();
+          break;
+
+        default:
+          prompt("system-error");
+      }
+    } catch (e) {
+      prompt("network-error");
+    } finally {
+      setLoading(false);
     }
   }
+
+  const esikidzAi = async () => {
+    try {
+      setLoading(true);
+      const res = await request.post(
+        api.esikidzAi,
+        {
+          centerId: center.id,
+          teacherName: teacher.firstName + " " + teacher.lastName,
+          type: "classroom-notes",
+          operation: "polishing",
+          opInfo: notes,
+        },
+        globalState.jwtToken
+      );
+
+      switch (res.status) {
+        case 200:
+          setHandleStatus({
+            color: colors.green,
+            text: t("classroomManagement.esikidzAiSuccess"),
+          });
+          setNotes(res.data.content || "");
+          break;
+
+        case 204:
+          prompt("ai-subscription");
+          break;
+
+        case 208:
+          setHandleStatus({
+            color: colors.yellow,
+            text: res.data.message,
+          });
+          break;
+
+        case 403:
+          setUnauthorized();
+          break;
+
+        default:
+          prompt("system-error");
+      }
+    } catch (e) {
+      if (e.toString().includes("timeout")) {
+        prompt("ai-timeout");
+      } else {
+        prompt("network-error");
+      }
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   return (
     <div className={styles["aiSimulator-container"]}>

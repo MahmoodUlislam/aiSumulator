@@ -1,0 +1,92 @@
+.confirmation-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  .messageContainer {
+    height: calc(100vh - 15rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 2.5rem;
+    .title {
+      color: #000;
+      font-family: "Roboto", sans-serif;
+      font-size: 2.5em;
+      font-weight: 600;
+    }
+    .message {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      .confirmationImage {
+        margin-top: 1rem;
+        width: 100px;
+        height: 100px;
+      }
+      .confirmationText {
+        color: #239dd6;
+        font-family: "Roboto", sans-serif;
+        font-size: 1.1em;
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+
+    .form-link {
+      text-decoration: none;
+      text-align: center;
+      color: #bebebe;
+      font-size: 1.5em;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem auto 0 auto;
+      .buttonIcon {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  }
+
+  .form-footer {
+    font-family: "Roboto", sans-serif;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .confirmation-container {
+    .messageContainer {
+      .title {
+        font-size: 3em;
+      }
+      .message {
+        .confirmationImage {
+          width: 150px;
+          height: 150px;
+        }
+        .confirmationText {
+          font-size: 1.5em;
+        }
+      }
+      .form-link {
+        .buttonIcon {
+          width: 200px;
+          height: 200px;
+        }
+      }
+    }
+  }
+}

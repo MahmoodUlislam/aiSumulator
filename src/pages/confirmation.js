@@ -53,8 +53,8 @@ export default function ConfirmationPage() {
             <Image
               src="/login-rounded-right_blue.png"
               alt="enter button icon"
-              width={500}
-              height={500}
+              width={200}
+              height={200}
               layout="responsive"
             />
           </div>
@@ -65,14 +65,14 @@ export default function ConfirmationPage() {
       <div className={styles["form-footer"]}>
         <span>Welcome to the 2024 SECA Conference!</span>
         <span>Experience esikBot like never before.</span>
-        <Link href="/login">
+        <a target="_blank" href="https://www.esikidz.com/">
           <Image
             src="/esikidz-logo.svg"
             alt="enter button icon"
             width={150}
             height={70}
           />
-        </Link>
+        </a>
       </div>
     </div>
   );

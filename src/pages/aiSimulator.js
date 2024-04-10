@@ -5,15 +5,34 @@ import { useState } from "react";
 import styles from "./aiSimulator.module.scss"; // Import the CSS module
 
 export default function AiSimulatorPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const [reportType, setReportType] = useState("");
-  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [reportTypeValid, setReportTypeValid] = useState(true);
+  const [contentValid, setContentValid] = useState(true);
+  const [reportTypeError, setReportTypeError] = useState("");
+  const [contentError, setContentError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(event) {
     event.preventDefault();
-    setIsLoading(true);
 
+    // Check if reportType or content is empty
+    if (!reportType.trim() || !content.trim()) {
+      setReportTypeValid(!!reportType.trim());
+      setContentValid(!!content.trim());
+      setReportTypeError(
+        !reportType.trim() ? "Please select a report type." : ""
+      );
+      setContentError(!content.trim() ? "Please enter report content." : "");
+      return;
+    }
+
+    // Reset errors
+    setReportTypeError("");
+    setContentError("");
+
+    // Proceed with form submission
+    setIsLoading(true);
     try {
       const res = await request.put(
         api.reminder,
@@ -124,11 +143,21 @@ export default function AiSimulatorPage() {
           }`}
           name="reportType"
           value={reportType}
-          onChange={(e) => setReportType(e.target.value)}
+          onChange={(e) => {
+            setReportType(e.target.value);
+            setReportTypeValid(!!e.target.value.trim());
+            setReportTypeError(
+              !e.target.value.trim() ? "Please select a report type." : ""
+            );
+          }}
         >
-          <option value="">Write a report to parent(s)</option>
-          <option value="summary">Send message to parent(s)</option>
+          <option value="">Please select report type</option>
+          <option value="reportType">Write a report to parent(s)</option>
+          <option value="content">Send message to parent(s)</option>
         </select>
+        {reportTypeError && (
+          <div className={styles["error-message"]}>{reportTypeError}</div>
+        )}
         <label htmlFor="content">Report Content</label>
         <textarea
           className={`${styles.textarea} ${
@@ -138,8 +167,17 @@ export default function AiSimulatorPage() {
           rows={6}
           placeholder={`Type some keywords that you want to write about.\n\nClick on "AI esikBot" and see the magic happen!`}
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            setContent(e.target.value);
+            setContentValid(!!e.target.value.trim());
+            setContentError(
+              !e.target.value.trim() ? "Please enter report content." : ""
+            );
+          }}
         />
+        {contentError && (
+          <div className={styles["error-message"]}>{contentError}</div>
+        )}
         <button
           className={`${styles.button} ${
             isLoading ? styles["button-loading"] : ""

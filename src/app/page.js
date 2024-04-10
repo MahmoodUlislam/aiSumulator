@@ -21,8 +21,8 @@ export default function Home() {
         <Image
           src="/login-rounded-right_blue.png"
           alt="enter button icon"
-          width={500}
-          height={500}
+          width={320}
+          height={320}
           layout="responsive"
         />
         Enter

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Loading from "../app/components/loading";
 import styles from "./aiSimulator.module.scss"; // Import the CSS module
 
 export default function AiSimulatorPage() {
@@ -66,29 +65,6 @@ export default function AiSimulatorPage() {
             text: "An error occurred while generating organized content.",
           });
           break;
-        // case 204:
-        //   setHandleStatus({
-        //     background: "#ff0000",
-        //     color: "#fff",
-        //     text: "No content provided. Please enter report content.",
-        //   });
-        //   break;
-
-        // case 208:
-        //   setHandleStatus({
-        //     background: "#ff0000",
-        //     color: "#fff",
-        //     text: "Invalid report type. Please select a valid report type.",
-        //   });
-        //   break;
-
-        // case 403:
-        //   setHandleStatus({
-        //     background: "#ff0000",
-        //     color: "#fff",
-        //     text: "Forbidden. Please try again later.",
-        //   });
-        //   break;
 
         default:
           setHandleStatus({
@@ -123,9 +99,8 @@ export default function AiSimulatorPage() {
       </div>
       <form className={styles.form} onSubmit={onSubmit}>
         <select
-          className={`${styles.select} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.select} ${isLoading ? styles["input-loading"] : ""
+            }`}
           name="reportType"
           value={reportType}
           onChange={(e) => {
@@ -145,9 +120,8 @@ export default function AiSimulatorPage() {
         )}
         <label htmlFor="content">Report Content</label>
         <textarea
-          className={`${styles.textarea} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.textarea} ${isLoading ? styles["input-loading"] : ""
+            }`}
           name="content"
           rows={6}
           placeholder={`Type some keywords that you want to write about.\n\nClick on "AI esikBot" and see the magic happen!`}
@@ -174,9 +148,8 @@ export default function AiSimulatorPage() {
             {handleStatus.text}
           </div>
           <button
-            className={`${styles.button} ${
-              isLoading ? styles["button-loading"] : ""
-            }`}
+            className={`${styles.button} ${isLoading ? styles["button-loading"] : ""
+              }`}
             type="submit"
             disabled={isLoading}
           >

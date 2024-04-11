@@ -1,7 +1,6 @@
 "use client";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "./form.module.scss"; // Import the CSS module
 
@@ -137,9 +136,8 @@ export default function FormPage() {
       <div className={styles.title}>Draw Registration</div>
       <form className={styles.form} onSubmit={onSubmit}>
         <input
-          className={`${styles.input} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
+            }`}
           type="text"
           name="organizationName"
           placeholder="Organization name"
@@ -155,9 +153,8 @@ export default function FormPage() {
         )}
 
         <input
-          className={`${styles.input} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
+            }`}
           type="text"
           name="yourName"
           placeholder="Your name"
@@ -169,9 +166,8 @@ export default function FormPage() {
         )}
 
         <input
-          className={`${styles.input} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
+            }`}
           type="text"
           name="contactPhoneNumber"
           placeholder="Contact phone number"
@@ -187,9 +183,8 @@ export default function FormPage() {
         )}
 
         <input
-          className={`${styles.input} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
+            }`}
           type="email"
           name="email"
           placeholder="E-mail"
@@ -201,9 +196,8 @@ export default function FormPage() {
         )}
 
         <select
-          className={`${styles.select} ${
-            isLoading ? styles["input-loading"] : ""
-          }`}
+          className={`${styles.select} ${isLoading ? styles["input-loading"] : ""
+            }`}
           name="role"
           value={validation.role.value}
           onChange={(e) => handleInputChange("role", e.target.value)}
@@ -224,15 +218,14 @@ export default function FormPage() {
         )}
 
         <button
-          className={`${styles.button} ${
-            isLoading ? styles["button-loading"] : ""
-          }`}
+          className={`${styles.button} ${isLoading ? styles["button-loading"] : ""
+            }`}
           type="submit"
           disabled={isLoading}
         >
           <div className={styles["buttonIcon"]}>
             <Image
-              src="/login-rounded-right_blue.png"
+              src={isLoading ? "/login-rounded-right_black.png" : "/login-rounded-right_blue.png"}
               alt="enter button icon"
               width={200}
               height={200}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Loading from "../app/components/loading";
 import styles from "./aiSimulator.module.scss"; // Import the CSS module
 
 export default function AiSimulatorPage() {
@@ -12,6 +13,11 @@ export default function AiSimulatorPage() {
   const [reportTypeError, setReportTypeError] = useState("");
   const [contentError, setContentError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [handleStatus, setHandleStatus] = useState({
+    background: "",
+    color: "",
+    text: "",
+  });
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -31,98 +37,77 @@ export default function AiSimulatorPage() {
     setReportTypeError("");
     setContentError("");
 
-    // Proceed with form submission
+    // Proceed with submission to the AI API
     setIsLoading(true);
     try {
-      const res = await request.put(
-        api.reminder,
-        {
-          centerId: center.id,
-          timezone: center.timezone,
-          operation: "create",
-          opInfo: {
-            classroomId: await AsyncStorage.getItem("classroomId"),
-            logData: {
-              teacherId: teacher.id,
-              teacherName: `${teacher.firstName} ${teacher.lastName}`,
-              content: notes,
-            },
-          },
+      const res = await fetch("/api/aiAPI", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-        globalState.jwtToken
-      );
+        body: JSON.stringify({
+          keywords: content.split(" "), // Split content into keywords
+        }),
+      });
       switch (res.status) {
         case 200:
-          onClose();
-          initData();
-          break;
-
-        case 403:
-          setUnauthorized();
-          break;
-
-        default:
-          prompt("system-error");
-      }
-    } catch (e) {
-      prompt("network-error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const esikidzAi = async () => {
-    try {
-      setLoading(true);
-      const res = await request.post(
-        api.esikidzAi,
-        {
-          centerId: center.id,
-          teacherName: teacher.firstName + " " + teacher.lastName,
-          type: "classroom-notes",
-          operation: "polishing",
-          opInfo: notes,
-        },
-        globalState.jwtToken
-      );
-
-      switch (res.status) {
-        case 200:
+          const data = await res.json();
+          setContent(data.organizedContent.paragraphs.join("\n\n")); // Update the content state with the organized content
           setHandleStatus({
-            color: colors.green,
-            text: t("classroomManagement.esikidzAiSuccess"),
-          });
-          setNotes(res.data.content || "");
-          break;
-
-        case 204:
-          prompt("ai-subscription");
-          break;
-
-        case 208:
-          setHandleStatus({
-            color: colors.yellow,
-            text: res.data.message,
+            background: "#00b300",
+            color: "#fff",
+            text: "Report generated successfully!",
           });
           break;
-
-        case 403:
-          setUnauthorized();
+        case 500:
+          setHandleStatus({
+            background: "#ff0000",
+            color: "#fff",
+            text: "An error occurred while generating organized content.",
+          });
           break;
+        // case 204:
+        //   setHandleStatus({
+        //     background: "#ff0000",
+        //     color: "#fff",
+        //     text: "No content provided. Please enter report content.",
+        //   });
+        //   break;
+
+        // case 208:
+        //   setHandleStatus({
+        //     background: "#ff0000",
+        //     color: "#fff",
+        //     text: "Invalid report type. Please select a valid report type.",
+        //   });
+        //   break;
+
+        // case 403:
+        //   setHandleStatus({
+        //     background: "#ff0000",
+        //     color: "#fff",
+        //     text: "Forbidden. Please try again later.",
+        //   });
+        //   break;
 
         default:
-          prompt("system-error");
+          setHandleStatus({
+            background: "#ff0000",
+            color: "#fff",
+            text: "An error occurred. Please try again later.",
+          });
+          break;
       }
     } catch (e) {
       if (e.toString().includes("timeout")) {
-        prompt("ai-timeout");
+        alert("timeout-error");
       } else {
-        prompt("network-error");
+        alert("network-error");
       }
     } finally {
-      setAiLoading(false);
+      setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div className={styles["aiSimulator-container"]}>
@@ -152,8 +137,8 @@ export default function AiSimulatorPage() {
           }}
         >
           <option value="">Please select report type</option>
-          <option value="reportType">Write a report to parent(s)</option>
-          <option value="content">Send message to parent(s)</option>
+          <option value="report">Write a report to parent(s)</option>
+          <option value="message">Send message to parent(s)</option>
         </select>
         {reportTypeError && (
           <div className={styles["error-message"]}>{reportTypeError}</div>
@@ -178,15 +163,26 @@ export default function AiSimulatorPage() {
         {contentError && (
           <div className={styles["error-message"]}>{contentError}</div>
         )}
-        <button
-          className={`${styles.button} ${
-            isLoading ? styles["button-loading"] : ""
-          }`}
-          type="submit"
-          disabled={isLoading}
-        >
-          {isLoading ? "Loading..." : "AI esikBot"}
-        </button>
+        <div className={styles.cta}>
+          <div
+            className={styles["handle-status"]}
+            style={{
+              background: handleStatus.background,
+              color: handleStatus.color,
+            }}
+          >
+            {handleStatus.text}
+          </div>
+          <button
+            className={`${styles.button} ${
+              isLoading ? styles["button-loading"] : ""
+            }`}
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "AI esikBot"}
+          </button>
+        </div>
       </form>
       <div className={styles["form-footer"]}>
         <span>Welcome to the 2024 SECA Conference!</span>

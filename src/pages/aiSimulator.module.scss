@@ -115,39 +115,51 @@
     }
     .input-loading {
       opacity: 0.5;
-      pointer-events: none;
+      cursor: not-allowed;
     }
-
-    .button {
-      border: none;
-      border-radius: 2rem;
-      cursor: pointer;
-      font-size: 1em;
-      margin: 1rem 0 auto auto;
-      padding: 15px 0;
-      width: 140px;
-      text-decoration: none;
-      text-align: center;
-      font-size: 1em;
-      font-weight: 400;
-      color: #fff;
-      background-color: #239dd6;
-      transition: background-color 0.3s;
-      &:disabled {
-        background-color: #ccc;
-        color: #000;
-        cursor: not-allowed;
+    .cta {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .handle-status {
+        text-align: center;
+        word-wrap: break-word;
+        font-size: 0.65em;
+        font-weight: 400;
+        margin: 1rem 0 0 1rem;
+        padding: 5px 10px;
+        border-radius: 1rem;
+      }
+      .button {
+        border: none;
+        border-radius: 2rem;
+        font-size: 1em;
+        margin: 1rem 0 auto auto;
+        padding: 15px 0;
+        width: 140px;
+        text-decoration: none;
+        text-align: center;
+        font-size: 1em;
+        font-weight: 400;
+        color: #fff;
+        background-color: #239dd6;
+        transition: background-color 0.3s;
+        cursor: pointer;
+        &:disabled {
+          background-color: #ccc;
+          color: #000;
+          cursor: not-allowed;
+        }
       }
     }
-
     .input-loading {
       opacity: 0.7;
-      pointer-events: none;
+      cursor: not-allowed;
     }
 
     .button-loading {
-      opacity: 0.7;
-      pointer-events: none;
+      cursor: not-allowed;
     }
     .error-message {
       color: red;

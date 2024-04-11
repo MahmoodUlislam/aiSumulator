@@ -1,4 +1,3 @@
-// utils/dbConnect.js
 import mongoose from "mongoose";
 
 const connection = {};
@@ -9,13 +8,10 @@ async function dbConnect() {
   }
 
   try {
-    const db = await mongoose.connect(
-      "mongodb+srv://mahmood:esikidz@reginaconferencecustome.ypvpfpc.mongodb.net/mydatabase", // Add the database name
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    const db = await mongoose.connect(process.env.MongoDBConnectString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     connection.isConnected = db.connections[0].readyState;
   } catch (error) {
     console.error("MongoDB connection error:", error);

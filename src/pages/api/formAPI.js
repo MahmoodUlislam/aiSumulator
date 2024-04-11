@@ -1,7 +1,7 @@
 import dbConnect from "../../utils/dbConnect";
 import Customer from "../../utils/models/customer"; // Import the Customer model from the correct file
 
-export default async function handler(req, res) {
+export default async function formAPI(req, res) {
   const { method, body } = req;
   await dbConnect();
 

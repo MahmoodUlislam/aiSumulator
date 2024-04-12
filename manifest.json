@@ -1,0 +1,19 @@
+{
+  "name": "My AI Simulator",
+  "version": "1.0.0",
+  "description": "A simulator for AI programming",
+  "author": "Your Name",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mongoose": "^8.3.1",
+    "next": "14.1.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "sass": "^1.72.0",
+    "typescript": "^5.4.5"
+  },
+  "license": "MIT"
+}

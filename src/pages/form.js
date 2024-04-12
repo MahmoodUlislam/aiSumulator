@@ -108,13 +108,23 @@ export default function FormPage() {
           "Content-Type": "application/json",
         },
       });
-
+      let responseData;
       switch (response.status) {
+        case 200:
+          responseData = await response.json();
+          // Redirect to confirmation page with confirmation message as query parameter
+          router.push({
+            pathname: "/confirmation",
+            query: { confirmationMessage: responseData.message },
+          });
+          break;
         case 201:
-          console.log("Form submitted successfully");
-
-          //redirect to confirmation page
-          router.push("/confirmation");
+          responseData = await response.json();
+          // Redirect to confirmation page with confirmation message as query parameter
+          router.push({
+            pathname: "/confirmation",
+            query: { confirmationMessage: responseData.message },
+          });
           break;
         case 400:
           console.error("Form submission failed");

@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styles from "./confirmation.module.scss"; // Import the CSS module
 
 export default function ConfirmationPage() {
+  const router = useRouter();
+  const confirmationMessage = router.query.confirmationMessage;
   return (
     <div className={styles["confirmation-container"]}>
       <div className={styles["messageContainer"]}>
@@ -23,7 +26,7 @@ export default function ConfirmationPage() {
                   />
                 </div>
                 <div className={styles.confirmationText}>
-                  Your registration for the lucky draw is received.
+                  {confirmationMessage}
                 </div>
                 <div className={styles.confirmationText}>Wish you best of luck!</div>
               </div>

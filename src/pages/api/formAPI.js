@@ -8,9 +8,19 @@ export default async function formAPI(req, res) {
   switch (method) {
     case "POST":
       try {
-        const newCustomer = new Customer(body); // Use the Customer model instead of the User model
-        await newCustomer.save();
-        res.status(201).json(newCustomer);
+        // Check if the customer with the provided email already exists
+        const existingCustomer = await Customer.findOne({ email: body.email });
+
+        if (existingCustomer) {
+          // If customer exists, update their information
+          await Customer.findOneAndUpdate({ email: body.email }, body);
+          res.status(200).json({ message: "Your details to the lucky draw registration is updated." });
+        } else {
+          // If customer doesn't exist, create a new customer
+          const newCustomer = new Customer(body);
+          await newCustomer.save();
+          res.status(201).json({ message: "Your registration for the lucky draw is received." });
+        }
       } catch (error) {
         res.status(400).json({ message: error.message });
       }

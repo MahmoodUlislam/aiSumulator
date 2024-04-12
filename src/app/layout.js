@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Esikidz AI simulator",
   description: "This is a simple AI text simulator app built for Esikidz.",
-  image: "/esikidz-logo.svg",
+  image: "/esikidz-logo.jpg",
 };
 
 export default function RootLayout({ children }) {

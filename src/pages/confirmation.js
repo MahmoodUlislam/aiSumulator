@@ -71,7 +71,7 @@ export default function ConfirmationPage() {
         <span>Experience esikBot like never before.</span>
         <a target="_blank" href="https://www.esiKidz.com/">
           <Image
-            src="/esikidz-logo.svg"
+            src="/esikidz-logo.jpg"
             alt="enter button icon"
             width={150}
             height={70}

@@ -250,7 +250,7 @@ export default function FormPage() {
         <span>Experience esikBot like never before.</span>
         <a target="_blank" href="https://www.esikidz.com/">
           <Image
-            src="/esikidz-logo.svg"
+            src="/esikidz-logo.jpg"
             alt="enter button icon"
             width={150}
             height={70}

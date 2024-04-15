@@ -1,7 +1,6 @@
-"use client";
-
 import Image from "next/image";
 import { useState } from "react";
+import hash from "../utils/textHash";
 import styles from "./aiSimulator.module.scss"; // Import the CSS module
 
 export default function AiSimulatorPage() {
@@ -39,33 +38,49 @@ export default function AiSimulatorPage() {
     // Proceed with submission to the AI API
     setIsLoading(true);
     try {
-      const res = await fetch("/api/aiAPI", {
-        method: "PUT",
+      const res = await fetch(process.env.NEXT_PUBLIC_AI_POLISHER, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          keywords: content.split(" "), // Split content into keywords
-        }),
+          magic: hash(content),
+          type: reportType,
+          keywords: content
+        })
       });
+      const responseData = await res.json();
+
       switch (res.status) {
         case 200:
-          const data = await res.json();
-          setContent(data.organizedContent.paragraphs.join("\n\n")); // Update the content state with the organized content
+          setContent(responseData.content); // Update the content state with the organized content by the AI
           setHandleStatus({
             background: "#00b300",
             color: "#fff",
             text: "Report generated successfully!",
           });
           break;
-        case 500:
+        case 204:
           setHandleStatus({
             background: "#ff0000",
             color: "#fff",
-            text: "An error occurred while generating organized content.",
+            text: "No content found. Please try again.",
           });
           break;
-
+        case 208:
+          setHandleStatus({
+            background: "#ff0000",
+            color: "#fff",
+            text: "Invalid report type. Please try again.",
+          });
+          break;
+        case 403:
+          setHandleStatus({
+            background: "#ff0000",
+            color: "#fff",
+            text: "Forbidden. Please try again later.",
+          });
+          break;
         default:
           setHandleStatus({
             background: "#ff0000",
@@ -105,6 +120,11 @@ export default function AiSimulatorPage() {
           value={reportType}
           onChange={(e) => {
             setReportType(e.target.value);
+            setHandleStatus({
+              background: "",
+              color: "",
+              text: "",
+            });
             setReportTypeValid(!!e.target.value.trim());
             setReportTypeError(
               !e.target.value.trim() ? "Please select a report type." : ""
@@ -112,8 +132,9 @@ export default function AiSimulatorPage() {
           }}
         >
           <option value="">Please select report type</option>
-          <option value="report">Write a report to parent(s)</option>
-          <option value="message">Send message to parent(s)</option>
+          <option value="classroom-notes">Classroom Notes</option>
+          <option value="teacher-notice">Teacher Notice</option>
+          <option value="child-report">Child Report</option>
         </select>
         {reportTypeError && (
           <div className={styles["error-message"]}>{reportTypeError}</div>
@@ -128,6 +149,11 @@ export default function AiSimulatorPage() {
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
+            setHandleStatus({
+              background: "",
+              color: "",
+              text: "",
+            });
             setContentValid(!!e.target.value.trim());
             setContentError(
               !e.target.value.trim() ? "Please enter report content." : ""
@@ -162,9 +188,9 @@ export default function AiSimulatorPage() {
         <span>Experience esikBot like never before.</span>
         <a target="_blank" href="https://www.esikidz.com/">
           <Image
-            src="/esikidz-logo.svg"
+            src="/esikidz-logo.png"
             alt="enter button icon"
-            width={150}
+            width={204}
             height={70}
           />
         </a>

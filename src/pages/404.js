@@ -11,7 +11,7 @@ const Custom404 = () => {
       </p>
       <p>
         <Link href="/">
-          <a>Go back to Home</a>
+          Go back to Home
         </Link>
       </p>
     </div>

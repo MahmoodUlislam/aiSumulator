@@ -115,7 +115,7 @@ export default function FormPage() {
           // Redirect to confirmation page with confirmation message as query parameter
           router.push({
             pathname: "/confirmation",
-            query: { confirmationMessage: responseData.message },
+            query: { confirmationMessage: responseData.message, isUserExists: true },
           });
           break;
         case 201:
@@ -123,7 +123,7 @@ export default function FormPage() {
           // Redirect to confirmation page with confirmation message as query parameter
           router.push({
             pathname: "/confirmation",
-            query: { confirmationMessage: responseData.message },
+            query: { confirmationMessage: responseData.message, isUserExists: false },
           });
           break;
         case 400:
@@ -144,6 +144,7 @@ export default function FormPage() {
   return (
     <div className={styles["form-container"]}>
       <div className={styles.title}>Draw Registration</div>
+
       <form className={styles.form} onSubmit={onSubmit}>
         <input
           className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
@@ -250,9 +251,9 @@ export default function FormPage() {
         <span>Experience esikBot like never before.</span>
         <a target="_blank" href="https://www.esikidz.com/">
           <Image
-            src="/esikidz-logo.jpg"
+            src="/esikidz-logo.png"
             alt="enter button icon"
-            width={150}
+            width={204}
             height={70}
           />
         </a>

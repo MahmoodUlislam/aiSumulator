@@ -8,6 +8,7 @@ import styles from "./confirmation.module.scss"; // Import the CSS module
 export default function ConfirmationPage() {
   const router = useRouter();
   const confirmationMessage = router.query.confirmationMessage;
+  const isUserExists = router.query.isUserExists
   return (
     <div className={styles["confirmation-container"]}>
       <div className={styles["messageContainer"]}>
@@ -71,9 +72,9 @@ export default function ConfirmationPage() {
         <span>Experience esikBot like never before.</span>
         <a target="_blank" href="https://www.esiKidz.com/">
           <Image
-            src="/esikidz-logo.jpg"
+            src="/esikidz-logo.png"
             alt="enter button icon"
-            width={150}
+            width={204}
             height={70}
           />
         </a>

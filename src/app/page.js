@@ -17,7 +17,7 @@ export default function Home() {
         <h2 className={styles["text-box3"]}>now!</h2>
       </div>
 
-      <Link className={styles["form-link"]} href="/form">
+      <Link className={styles["form-link"]} href="/checkAccount">
         <Image
           src="/login-rounded-right_blue.png"
           alt="enter button icon"

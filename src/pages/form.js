@@ -215,8 +215,7 @@ export default function FormPage() {
 
 
         <select
-          className={`${styles.select} ${isLoading ? styles["input-loading"] : ""
-            }`}
+          className={isLoading ? styles["input-loading"] : ""}
           name="role"
           value={validation.role.value}
           onChange={(e) => handleInputChange("role", e.target.value)}

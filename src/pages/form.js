@@ -214,7 +214,9 @@ export default function FormPage() {
 
 
 
-        <select
+        <select style={{
+          padding: "15px 20px"
+        }}
           className={isLoading ? styles["input-loading"] : ""}
           name="role"
           value={validation.role.value}

@@ -12,7 +12,7 @@ export default async function checkEmailAPI(req, res) {
                 const existingCustomer = await Customer.findOne({ email: body.email });
 
                 if (existingCustomer) {
-                    res.status(200).json({ exists: true, message: "This account already exists." });
+                    res.status(200).json({ exists: true, message: "Already registered for the lucky draw." });
                 } else {
                     res.status(201).json({ exists: false, message: body.email });
                 }

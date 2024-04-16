@@ -1,4 +1,6 @@
 .checkAccountContainer {
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,45 +20,56 @@
     margin: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: 10px;
-
-    .input {
+    .formGroup {
       width: 100%;
-      margin: 0 auto;
-      padding: 15px 20px;
-      font-size: 1em;
-      background-color: #239dd6;
-      border: none;
-      border-radius: 2rem;
-      color: #fff;
-      transition: border-color 0.3s;
-      &::placeholder {
-        color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+
+      label {
+        font-size: 1em;
         font-weight: 600;
+        margin: 0 0 0.25rem 1rem;
       }
-      &:focus {
-        border-color: #239dd6;
-        outline: none;
+      .input {
+        width: 100%;
+        margin: 0 auto;
+        padding: 15px 20px;
+        font-size: 1em;
+        background-color: #239dd6;
+        border: none;
+        border-radius: 2rem;
+        color: #fff;
+        transition: border-color 0.3s;
+        &::placeholder {
+          color: #fff;
+        }
+        &:focus {
+          border-color: #239dd6;
+          outline: none;
+        }
       }
-    }
-    .errorMessage {
-      color: red;
-      font-size: 0.8em;
-    }
-    .input-loading {
-      opacity: 0.5;
-      cursor: not-allowed;
+      .error {
+        color: red;
+        font-size: 0.8em;
+        margin: 0.5rem 0 0 1rem;
+      }
+      .input-loading {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
 
     .button {
       border: none;
       background-color: transparent;
       font-size: 1em;
-      margin: 1rem auto auto auto;
+      margin: 4rem auto auto auto;
       cursor: pointer;
-
       text-decoration: none;
       text-align: center;
       color: #bebebe;
@@ -65,10 +78,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0 auto;
       .buttonIcon {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
       }
 
       &:disabled {
@@ -87,7 +99,7 @@
   }
   .formFooter {
     font-family: "Roboto", sans-serif;
-    margin: auto;
+    margin: auto auto 1rem auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -97,27 +109,21 @@
 }
 
 @media screen and (min-width: 767px) {
-  .form-container {
+  .checkAccountContainer {
     .title {
-      font-size: 2.5em;
-      margin-top: 2rem;
+      font-size: 3em;
     }
-    .form {
-      max-width: 600px;
-      gap: 20px;
+    .checkAccountForm {
+      max-width: 800px;
+      gap: 30px;
       .button {
-        .form-link {
-          width: 200px;
-          font-size: 1.5em;
-          margin: 0 auto;
-          .buttonIcon {
-            width: 150px;
-            height: 150px;
-          }
+        .buttonIcon {
+          width: 280px;
+          height: 280px;
         }
       }
     }
-    .form-footer {
+    .formFooter {
       margin-bottom: 3rem;
       display: flex;
       flex-direction: column;
@@ -130,33 +136,31 @@
 
 @media screen and (min-width: 1023px) {
   .form-container {
-    margin: 0 auto;
     .title {
       font-size: 3em;
-      margin-bottom: 2rem;
     }
     .form {
-      max-width: 600px;
+      max-width: 800px;
       gap: 30px;
-      .input {
-        font-size: 1.5em;
-        padding: 15px 30px;
-      }
-      .select {
-        font-size: 1.5em;
-        padding: 15px 30px;
-      }
       .button {
         .form-link {
           width: 250px;
-          font-size: 2em;
-          margin: 0 auto auto auto;
+          font-size: 1.5em;
+          margin: 0 auto;
           .buttonIcon {
-            width: 200px;
-            height: 200px;
+            width: 320px;
+            height: 320px;
           }
         }
       }
+    }
+    .form-footer {
+      margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
     }
   }
 }

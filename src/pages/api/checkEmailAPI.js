@@ -12,9 +12,9 @@ export default async function checkEmailAPI(req, res) {
                 const existingCustomer = await Customer.findOne({ email: body.email });
 
                 if (existingCustomer) {
-                    res.status(200).json({ exists: true, message: "This account already exists." });;
+                    res.status(200).json({ exists: true, message: "This account already exists." });
                 } else {
-                    res.status(201).json({ exists: false });
+                    res.status(201).json({ exists: false, message: body.email });
                 }
             } catch (error) {
                 res.status(400).json({ message: error.message });

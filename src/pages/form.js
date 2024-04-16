@@ -7,13 +7,16 @@ import styles from "./form.module.scss"; // Import the CSS module
 export default function FormPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const email = router.query.message;
 
   // Validation object to maintain state for each field
   const [validation, setValidation] = useState({
     organizationName: { value: "", error: "" },
     yourName: { value: "", error: "" },
     contactPhoneNumber: { value: "", error: "" },
-    email: { value: "", error: "" },
+    email: {
+      value: `${email ? email : ""}`, error: ""
+    },
     role: { value: "", error: "" },
   });
 
@@ -41,13 +44,11 @@ export default function FormPage() {
         }
         break;
       case "email":
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!validation.email.value.trim()) {
-          error = "Email is required";
-        } else if (!emailPattern.test(validation.email.value)) {
-          error = "Invalid email address";
+        if (!validation.email.value?.trim() && !email) {
+          error = "Email is required, please go back to the previous page to enter your email address";
         }
         break;
+
       case "role":
         if (!validation.role.value) {
           error = "Role selection is required";
@@ -100,6 +101,16 @@ export default function FormPage() {
     try {
       // Submit the form data
       const formData = new FormData(event.currentTarget);
+
+      // Iterate over the form fields
+      document.querySelectorAll('input, select, textarea').forEach(field => {
+        // Check if the field is disabled
+        if (field.disabled) {
+          // Append the disabled field's name and value to the FormData object
+          formData.append(field.name, field.value);
+        }
+      });
+
       // POST it to next.js API
       const response = await fetch("/api/formAPI", {
         method: "POST",
@@ -108,22 +119,18 @@ export default function FormPage() {
           "Content-Type": "application/json",
         },
       });
-      let responseData;
+      let responseData = await response.json();
       switch (response.status) {
         case 200:
-          responseData = await response.json();
-          // Redirect to confirmation page with confirmation message as query parameter
           router.push({
             pathname: "/confirmation",
-            query: { confirmationMessage: responseData.message, isUserExists: true },
+            query: responseData,
           });
           break;
         case 201:
-          responseData = await response.json();
-          // Redirect to confirmation page with confirmation message as query parameter
           router.push({
             pathname: "/confirmation",
-            query: { confirmationMessage: responseData.message, isUserExists: false },
+            query: responseData,
           });
           break;
         case 400:
@@ -134,7 +141,6 @@ export default function FormPage() {
           break;
       }
     } catch (error) {
-      // Handle error if necessary
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -146,6 +152,19 @@ export default function FormPage() {
       <div className={styles.title}>Draw Registration</div>
 
       <form className={styles.form} onSubmit={onSubmit}>
+        <input
+          className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
+            }`}
+          type="email"
+          name="email"
+          placeholder="E-mail"
+          value={email ? email : validation.email.value}
+          disabled
+        />
+        {validation.email.error && (
+          <div className={styles.error}>{validation.email.error}</div>
+        )
+        }
         <input
           className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
             }`}
@@ -179,7 +198,7 @@ export default function FormPage() {
         <input
           className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
             }`}
-          type="text"
+          type="number"
           name="contactPhoneNumber"
           placeholder="Contact phone number"
           value={validation.contactPhoneNumber.value}
@@ -193,18 +212,7 @@ export default function FormPage() {
           </div>
         )}
 
-        <input
-          className={`${styles.input} ${isLoading ? styles["input-loading"] : ""
-            }`}
-          type="email"
-          name="email"
-          placeholder="E-mail"
-          value={validation.email.value}
-          onChange={(e) => handleInputChange("email", e.target.value)}
-        />
-        {validation.email.error && (
-          <div className={styles.error}>{validation.email.error}</div>
-        )}
+
 
         <select
           className={`${styles.select} ${isLoading ? styles["input-loading"] : ""
@@ -240,8 +248,11 @@ export default function FormPage() {
               alt="enter button icon"
               width={200}
               height={200}
-              layout="responsive"
-            />
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto"
+              }} />
           </div>
           {isLoading ? "Loading..." : "Next"}
         </button>
@@ -255,7 +266,10 @@ export default function FormPage() {
             alt="enter button icon"
             width={204}
             height={70}
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </a>
       </div>
     </div>

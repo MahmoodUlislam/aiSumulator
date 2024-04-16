@@ -23,8 +23,11 @@ export default function Home() {
           alt="enter button icon"
           width={320}
           height={320}
-          layout="responsive"
-        />
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto"
+          }} />
         Enter
       </Link>
     </div>

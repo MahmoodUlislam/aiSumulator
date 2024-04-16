@@ -7,8 +7,8 @@ import styles from "./confirmation.module.scss"; // Import the CSS module
 
 export default function ConfirmationPage() {
   const router = useRouter();
-  const confirmationMessage = router.query.confirmationMessage;
-  const isUserExists = router.query.isUserExists
+  const confirmationMessage = router.query.message;
+  const isUserExists = router.query.exists // This is the query parameter that we passed from checkAccount.js
   return (
     <div className={styles["confirmation-container"]}>
       <div className={styles["messageContainer"]}>
@@ -23,8 +23,11 @@ export default function ConfirmationPage() {
                     alt="confirmation icon"
                     width={500}
                     height={500}
-                    layout="responsive"
-                  />
+                    sizes="100vw"
+                    style={{
+                      width: "100%",
+                      height: "auto"
+                    }} />
                 </div>
                 <div className={styles.confirmationText}>
                   {confirmationMessage}
@@ -41,8 +44,11 @@ export default function ConfirmationPage() {
                     alt="registration over icon"
                     width={500}
                     height={500}
-                    layout="responsive"
-                  />
+                    sizes="100vw"
+                    style={{
+                      width: "100%",
+                      height: "auto"
+                    }} />
                 </div>
                 <div className={styles.confirmationText}>
                   Registration for the lucky draw is closed.
@@ -60,8 +66,11 @@ export default function ConfirmationPage() {
               alt="enter button icon"
               width={200}
               height={200}
-              layout="responsive"
-            />
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto"
+              }} />
           </div>
           Try esikBot Now!
         </Link>
@@ -76,7 +85,10 @@ export default function ConfirmationPage() {
             alt="enter button icon"
             width={204}
             height={70}
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </a>
       </div>
     </div>

@@ -192,7 +192,10 @@ export default function AiSimulatorPage() {
             alt="enter button icon"
             width={204}
             height={70}
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </a>
       </div>
     </div>

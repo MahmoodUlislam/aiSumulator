@@ -1,4 +1,3 @@
-// checkAccountWithEmailPage.js
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -31,18 +30,32 @@ export default function CheckAccountWithEmailPage() {
                 body: JSON.stringify({ email }),
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                if (data.exists) {
+            switch (response.status) {
+                case 200:
+                    const data = await response.json();
+                    if (data.exists) {
+                        router.push({
+                            pathname: "/confirmation",
+                            query: data,
+                        });
+                    } else {
+                        router.push({
+                            pathname: "/form",
+                            query: data,
+                        });
+                    }
+                    break;
+                case 201:
+                    const formData = await response.json(); // Change: Rename data to formData
                     router.push({
-                        pathname: "/confirmation",
-                        query: { confirmationMessage: response.message, isUserExists: true },
+                        pathname: "/form",
+                        query: formData, // Change: Use formData instead of data
                     });
-                } else {
-                    router.push("/form");
-                }
-            } else {
-                throw new Error("Failed to check email existence");
+                    break;
+                case 405:
+                    throw new Error("Method Not Allowed");
+                default:
+                    throw new Error("Failed to check email existence");
             }
         } catch (error) {
             console.error("Error:", error.message);
@@ -56,18 +69,21 @@ export default function CheckAccountWithEmailPage() {
         <div className={styles.checkAccountContainer}>
             <div className={styles.title}>Draw Registration</div>
             <form onSubmit={handleSubmit} className={styles.checkAccountForm}>
-                <label htmlFor="email">Email</label>
-                <input
-                    className={`${styles.input} ${isLoading ? styles["input-loading"] : ""}`}
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={email}
-                    placeholder="Enter your email address"
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <span className={styles.errorMessage}>{error}</span>
+                <div className={styles.formGroup}>
+                    <label htmlFor="email" className={styles.label}>
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        placeholder="Enter your email address"
+                        className={styles.input}
+                    />
+                    {error && <div className={styles.error}>{error}</div>}
+                </div>
                 <button
                     className={`${styles.button} ${isLoading ? styles["button-loading"] : ""
                         }`}
@@ -78,10 +94,13 @@ export default function CheckAccountWithEmailPage() {
                         <Image
                             src={isLoading ? "/login-rounded-right_black.png" : "/login-rounded-right_blue.png"}
                             alt="enter button icon"
-                            width={200}
-                            height={200}
-                            layout="responsive"
-                        />
+                            width={320}
+                            height={320}
+                            sizes="100vw"
+                            style={{
+                                width: "100%",
+                                height: "auto"
+                            }} />
                     </div>
                     {isLoading ? "Loading..." : "Next"}
                 </button>
@@ -90,7 +109,15 @@ export default function CheckAccountWithEmailPage() {
                 <span>Welcome to the 2024 SECA Conference!</span>
                 <span>Experience esikBot like never before.</span>
                 <a target="_blank" rel="noopener noreferrer" href="https://www.esikidz.com/">
-                    <Image src="/esikidz-logo.png" alt="esikidz logo" width={204} height={70} />
+                    <Image
+                        src="/esikidz-logo.png"
+                        alt="esikidz logo"
+                        width={204}
+                        height={70}
+                        style={{
+                            maxWidth: "100%",
+                            height: "auto"
+                        }} />
                 </a>
             </div>
         </div>

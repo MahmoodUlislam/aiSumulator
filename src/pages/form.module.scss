@@ -34,16 +34,17 @@
       transition: border-color 0.3s;
       &::placeholder {
         color: #fff;
-        font-weight: 600;
       }
-      &:focus {
-        border-color: #239dd6;
-        outline: none;
+
+      &:disabled {
+        background-color: #bebebe;
+        cursor: not-allowed;
       }
     }
     .error {
       color: red;
       font-size: 0.8em;
+      margin: 0 1rem;
     }
     .input-loading {
       opacity: 0.5;
@@ -68,7 +69,6 @@
       &::placeholder {
         color: #239dd6;
         background-color: #fff;
-        font-weight: 600;
       }
       &:focus {
         border-color: #239dd6;
@@ -162,7 +162,6 @@
       margin-bottom: 2rem;
     }
     .form {
-      max-width: 600px;
       gap: 30px;
       .input {
         font-size: 1.5em;

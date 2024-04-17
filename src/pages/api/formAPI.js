@@ -5,7 +5,6 @@ import Customer from "../../utils/models/customer";
 export default async function saveCustomerAPI(req, res) {
   const { method, body } = req;
   await dbConnect();
-
   switch (method) {
     case "POST":
       try {
@@ -18,7 +17,13 @@ export default async function saveCustomerAPI(req, res) {
           res.status(200).json({ message: "Your details for the lucky draw registration have been updated." });
         } else {
           // If customer doesn't exist, create a new customer
-          const newCustomer = new Customer(body);
+          const currentTime = new Date();
+          const currentTimeString = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
+          const newCustomerData = {
+            ...body,
+            submissionTime: currentTimeString
+          };
+          const newCustomer = new Customer(newCustomerData);
           await newCustomer.save();
           res.status(201).json({ message: "Your registration for the lucky draw is received." });
         }

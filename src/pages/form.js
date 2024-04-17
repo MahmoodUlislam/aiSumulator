@@ -112,10 +112,6 @@ export default function FormPage() {
           // Append the disabled field's name and value to the FormData object
           formData.append(field.name, field.value);
         }
-
-        // Set the current time
-        const currentTimeDate = new Date().toLocaleString();
-        formData.append(field.name, currentTimeDate);
       });
 
       // POST it to next.js API

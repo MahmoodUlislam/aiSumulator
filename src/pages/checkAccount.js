@@ -14,13 +14,16 @@ export default function CheckAccountWithEmailPage() {
         event.preventDefault();
         setError("");
 
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
             setError("Email is required");
+            return;
+        } else if (!emailPattern.test(email)) {
+            setError("Invalid email address");
             return;
         }
 
         setIsLoading(true);
-
         try {
             const response = await fetch("/api/checkEmailAPI", {
                 method: "POST",

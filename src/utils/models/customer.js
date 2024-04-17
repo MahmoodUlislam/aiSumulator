@@ -1,13 +1,15 @@
+// customer.js (or wherever your Mongoose schema is defined)
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
   organizationName: String,
   yourName: String,
   contactPhoneNumber: Number,
   email: String,
   role: String,
+  submissionTime: String
 });
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema);
 
-export default User;
+export default Customer;

@@ -19,9 +19,11 @@ export default async function saveCustomerAPI(req, res) {
           // If customer doesn't exist, create a new customer
           const currentTime = new Date();
           const currentTimeString = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
+          const currentDateString = `${currentTime.getDate()}/${currentTime.getMonth() + 1}/${currentTime.getFullYear()}`;
           const newCustomerData = {
             ...body,
-            submissionTime: currentTimeString
+            submissionTime: currentTimeString,
+            submissionDate: currentDateString
           };
           const newCustomer = new Customer(newCustomerData);
           await newCustomer.save();

@@ -7,7 +7,8 @@ const customerSchema = new mongoose.Schema({
   contactPhoneNumber: Number,
   email: String,
   role: String,
-  submissionTime: String
+  submissionTime: String,
+  submissionDate: String,
 });
 
 const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema);

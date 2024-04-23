@@ -1,4 +1,5 @@
 "use client";
+import writeToLog from "@/utils/logger";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -113,6 +114,9 @@ export default function FormPage() {
           formData.append(field.name, field.value);
         }
       });
+
+      // Log the form data
+      writeToLog(Object.fromEntries(formData));
 
       // POST it to next.js API
       const response = await fetch("/api/formAPI", {

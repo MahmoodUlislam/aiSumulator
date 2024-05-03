@@ -13,8 +13,9 @@ export default function ConfirmationPage() {
     <div className={styles["confirmation-container"]}>
       <div className={styles["messageContainer"]}>
         <div className={styles.title}>Thank You!</div>
+        {console.log(new Date().getHours())}
         {
-          (new Date().getHours() >= 17.5) ? (
+          (new Date().getHours() <= 17.5) ? (
             <>
               <div className={styles["message"]}>
                 <div className={styles.confirmationImage}>
